@@ -1,4 +1,4 @@
-# docker-componse.yml
+# docker-compose.yml
 version: '3.8'
 
 networks:
