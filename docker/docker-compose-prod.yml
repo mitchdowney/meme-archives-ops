@@ -74,8 +74,10 @@ services:
     networks:
       - nginx-proxy-network
     environment:
-      - VIRTUAL_HOST=api.mspaint.gallery
+      - VIRTUAL_HOST= # example: api.mspaint.gallery
       - VIRTUAL_PORT=4321
+      - LETSENCRYPT_HOST= # example api.mspaint.gallery
+      - LETSENCRYPT_EMAIL= # your email address
     command: npm start
     logging:
       driver: "json-file"
@@ -98,8 +100,10 @@ services:
       - "3000:3000"
     restart: "always"
     environment:
-      - VIRTUAL_HOST=mspaint.gallery
+      - VIRTUAL_HOST= # example: mspaint.gallery
       - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST= # example mspaint.gallery
+      - LETSENCRYPT_EMAIL= # your email address
     depends_on:
       - paintsol_api
     networks:
