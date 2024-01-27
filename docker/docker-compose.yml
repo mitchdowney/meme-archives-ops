@@ -1,13 +1,9 @@
 # docker-componse.yml
 version: '3.8'
 
-# networks:
-#   nginx-proxy:
-#     external: true
-
 networks:
   nginx-proxy-network:
-      name: nginx-proxy-network
+    external: true
 
 volumes:
   pg:
@@ -46,7 +42,7 @@ services:
       - html:/usr/share/nginx/html
       - certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ../nginx/nginx.conf:/etc/nginx/conf.d/my_proxy.conf:ro
+      - ../nginx/nginx.conf:/etc/nginx/conf.d/custom-config.conf:ro
     networks:
       - nginx-proxy-network
 
