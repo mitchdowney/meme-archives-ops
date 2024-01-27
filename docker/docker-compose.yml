@@ -1,0 +1,68 @@
+# docker-componse.yml
+version: '3.8'
+
+networks:
+  nginx-proxy:
+      name: nginx-proxy
+
+services:
+  paintsol_db:
+    image: "postgres:16.1"
+    container_name: "paintsol_db"
+    env_file:
+      - "../config/paintsol-db.env"
+    ports:
+      - "5555:5432"
+    volumes:
+      - "pg:/var/lib/postgresql/data"
+    restart: "always"
+    networks:
+      - nginx-proxy
+
+  paintsol_api:
+    build: "../../paintsol-api/"
+    image: paintsol-api
+    container_name: "paintsol_api"
+    env_file:
+      - "../../paintsol-api/.env"
+    ports:
+      - "4321:4321"
+    restart: "always"
+    depends_on:
+      - paintsol_db
+    networks:
+      - nginx-proxy
+    command: npm start
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "1"
+        max-size: "50m"
+
+  paintsol_web:
+    build: "../../paintsol/"
+    image: paintsol-web
+    container_name: "paintsol_web"
+    # Next.js runtime environment variables need to be available
+    # before the build command runs in the Dockerfile, so the
+    # env_file does not even need to be specified here, because
+    # npm run build will automatically grab the ./.env.local file
+    # that is in the paintsol-web directory.
+    # env_file:
+    #   - "../config/paintsol-web.env"
+    ports:
+      - "3000:3000"
+    restart: "always"
+    depends_on:
+      - paintsol_api
+    networks:
+      - nginx-proxy
+    command: npm start
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "1"
+        max-size: "50m"
+
+volumes:
+  pg:
