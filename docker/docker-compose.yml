@@ -40,7 +40,7 @@ services:
         max-size: "50m"
 
   paintsol_web:
-    build: "../../paintsol/"
+    build: "../../paintsol-web/"
     image: paintsol-web
     container_name: "paintsol_web"
     # Next.js runtime environment variables need to be available
