@@ -52,8 +52,8 @@ services:
   acme_companion:
     image: nginxproxy/acme-companion
     container_name: nginx-proxy-acme
-    environment:
-      - DEFAULT_EMAIL=mail@yourdomain.tld
+    env_file:
+      - "../config/acme-companion.env"
     volumes_from:
       - nginx_proxy
     volumes:
