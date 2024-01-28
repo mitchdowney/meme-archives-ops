@@ -19,8 +19,6 @@ services:
     container_name: "paintsol_db"
     env_file:
       - "../config/paintsol-db.env"
-    ports:
-      - "5555:5432"
     volumes:
       - "pg:/var/lib/postgresql/data"
     restart: "always"
@@ -66,8 +64,6 @@ services:
     container_name: "paintsol_api"
     env_file:
       - "../../paintsol-api/.env"
-    ports:
-      - "4321:4321"
     restart: "always"
     depends_on:
       - nginx_proxy
@@ -97,8 +93,6 @@ services:
     # that is in the paintsol-web directory.
     # env_file:
     #   - "../config/paintsol-web.env"
-    ports:
-      - "3000:3000"
     restart: "always"
     environment:
       - VIRTUAL_HOST= # example: mspaint.gallery
