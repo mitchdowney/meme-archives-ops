@@ -47,7 +47,7 @@ services:
 
   # acme_companion:
   #   image: nginxproxy/acme-companion
-  #   container_name: nginx-proxy-acme
+  #   container_name: acme_companion
   #   env_file:
   #     - "../config/acme-companion.env"
   #   volumes_from:
