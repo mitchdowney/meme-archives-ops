@@ -1,0 +1,115 @@
+# docker-compose.yml
+version: '3.8'
+
+networks:
+  nginx-proxy-network:
+    external: true
+
+volumes:
+  pg:
+  conf:
+  vhost:
+  html:
+  # certs:
+  # acme:
+  db_backup:
+
+services:
+  paintsol_db:
+    image: "postgres:16.1"
+    container_name: "paintsol_db"
+    env_file:
+      - "../config/paintsol-db.env"
+    ports:
+      - "5555:5432"
+    volumes:
+      - "pg:/var/lib/postgresql/data"
+      - "db_backup:/mnt"
+    restart: "always"
+    networks:
+      - nginx-proxy-network
+
+  # paintsol_db is not exposed to the outside world,
+  # so it does not depends_on nginx_proxy
+
+  nginx_proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      # - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ../nginx/nginx.conf:/etc/nginx/conf.d/custom-config.conf:ro
+    networks:
+      - nginx-proxy-network
+
+  # acme_companion:
+  #   image: nginxproxy/acme-companion
+  #   container_name: acme_companion
+  #   env_file:
+  #     - "../config/acme-companion.env"
+  #   volumes_from:
+  #     - nginx_proxy
+  #   volumes:
+  #     - certs:/etc/nginx/certs:rw
+  #     - acme:/etc/acme.sh
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   networks:
+  #     - nginx-proxy-network
+
+  paintsol_api:
+    build: "../../paintsol-api/"
+    image: paintsol-api
+    container_name: "paintsol_api"
+    env_file:
+      - "../../paintsol-api/.env"
+    ports:
+      - "4321:4321"
+    restart: "always"
+    depends_on:
+      - nginx_proxy
+      - paintsol_db
+    networks:
+      - nginx-proxy-network
+    # environment:
+    #   - VIRTUAL_HOST=api.mspaint.gallery
+    #   - VIRTUAL_PORT=4321
+    command: npm start
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "1"
+        max-size: "50m"
+
+  paintsol_web:
+    build: "../../paintsol-web/"
+    image: paintsol-web
+    container_name: "paintsol_web"
+    # Next.js runtime environment variables need to be available
+    # before the build command runs in the Dockerfile, so the
+    # env_file does not even need to be specified here, because
+    # npm run build will automatically grab the ./.env.local file
+    # that is in the paintsol-web directory.
+    # env_file:
+    #   - "../config/paintsol-web.env"
+    ports:
+      - "3000:3000"
+    restart: "always"
+    # environment:
+    #   - VIRTUAL_HOST=mspaint.gallery
+    #   - VIRTUAL_PORT=3000
+    depends_on:
+      - paintsol_api
+    networks:
+      - nginx-proxy-network
+    command: npm start
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "1"
+        max-size: "50m"
