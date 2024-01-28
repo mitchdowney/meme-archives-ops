@@ -1,14 +1,14 @@
 .PHONY: local_up_db
 local_up_db:
-	docker compose -f ./docker/docker-compose.yml up paintsol_db -d
+	docker compose -f ./docker/docker-compose-local.yml up paintsol_db -d
 
 .PHONY: local_up_all
 local_up_all:
-	docker compose -f ./docker/docker-compose.yml up -d
+	docker compose -f ./docker/docker-compose-local.yml up -d
 
 .PHONY: local_down_all
 local_down_all:
-	docker compose -f ./docker/docker-compose.yml down
+	docker compose -f ./docker/docker-compose-local.yml down
 
 .PHONY: prod_up_db
 prod_up_db:
