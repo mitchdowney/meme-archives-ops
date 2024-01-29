@@ -1,2 +1,3 @@
 config/acme-companion.env
 config/paintsol-db.env
+.vscode-server
