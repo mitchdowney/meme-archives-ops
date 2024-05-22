@@ -1,3 +1,6 @@
+.vscode-server
+
+.vscode/terminals.json
+
 config/acme-companion.env
 config/paintsol-db.env
-.vscode-server
