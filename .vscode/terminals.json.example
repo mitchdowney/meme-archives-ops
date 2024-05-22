@@ -1,0 +1,35 @@
+{
+  "autorun": false,
+  "terminals": [
+    {
+      "name": "Meme Archives API",
+      "description": "meme-archives-api",
+      "cwd": "~/repos/meme-archives-api",
+      "open": true
+    },
+    {
+      "name": "Meme Archives Web",
+      "description": "meme-archives-web",
+      "cwd": "~/repos/meme-archives-web",
+      "open": true
+    },
+    {
+      "name": "Meme Archives Ops",
+      "description": "meme-archives-ops",
+      "cwd": "~/repos/meme-archives-ops",
+      "open": true
+    },
+    {
+      "name": "Meme Archives TG Bot",
+      "description": "meme-archives-tg-bot",
+      "cwd": "~/repos/meme-archives-tg-bot",
+      "open": true
+    },
+    {
+      "name": "Meme Archives SSH",
+      "description": "meme-archives ssh",
+      "cwd": "~/repos/meme-archives-ops",
+      "open": true
+    }
+  ]
+}
