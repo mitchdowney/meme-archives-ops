@@ -2,7 +2,7 @@
 
 echo "Starting backup function"
 
-CONTAINER_NAME='paintsol_db'
+CONTAINER_NAME='meme_archives_db'
 SOURCE_DIR="$(docker volume inspect --format '{{ .Mountpoint }}' docker_db_backup)"
 DAYS_TO_KEEP=7
 

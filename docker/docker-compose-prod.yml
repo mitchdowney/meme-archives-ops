@@ -15,11 +15,11 @@ volumes:
   db_backup:
 
 services:
-  paintsol_db:
+  meme_archives_db:
     image: "postgres:16.1"
-    container_name: "paintsol_db"
+    container_name: "meme_archives_db"
     env_file:
-      - "../config/paintsol-db.env"
+      - "../config/meme-archives-db.env"
     volumes:
       - "pg:/var/lib/postgresql/data"
       - "db_backup:/mnt"
@@ -27,7 +27,7 @@ services:
     networks:
       - nginx-proxy-network
 
-  # paintsol_db is not exposed to the outside world,
+  # meme_archives_db is not exposed to the outside world,
   # so it does not depends_on nginx_proxy
 
   nginx_proxy:
@@ -60,23 +60,23 @@ services:
     networks:
       - nginx-proxy-network
 
-  paintsol_api:
-    build: "../../paintsol-api/"
-    image: paintsol-api
-    container_name: "paintsol_api"
+  meme_archives_api:
+    build: "../../meme-archives-api/"
+    image: meme-archives-api
+    container_name: "meme_archives_api"
     env_file:
-      - "../../paintsol-api/.env"
+      - "../../meme-archives-api/.env"
     restart: "always"
     depends_on:
       - nginx_proxy
-      - paintsol_db
+      - meme_archives_db
     networks:
       - nginx-proxy-network
     environment:
-      - VIRTUAL_HOST= # example: api.mspaint.gallery
+      - VIRTUAL_HOST=
       - VIRTUAL_PORT=4321
-      - LETSENCRYPT_HOST= # example api.mspaint.gallery
-      - LETSENCRYPT_EMAIL= # your email address
+      - LETSENCRYPT_HOST=
+      - LETSENCRYPT_EMAIL=
     command: npm start
     logging:
       driver: "json-file"
@@ -84,25 +84,25 @@ services:
         max-file: "1"
         max-size: "50m"
 
-  paintsol_web:
-    build: "../../paintsol-web/"
-    image: paintsol-web
-    container_name: "paintsol_web"
+  meme_archives_web:
+    build: "../../meme-archives-web/"
+    image: meme-archives-web
+    container_name: "meme_archives_web"
     # Next.js runtime environment variables need to be available
     # before the build command runs in the Dockerfile, so the
     # env_file does not even need to be specified here, because
     # npm run build will automatically grab the ./.env.local file
-    # that is in the paintsol-web directory.
+    # that is in the meme-archives-web directory.
     # env_file:
-    #   - "../config/paintsol-web.env"
+    #   - "../config/meme-archives-web.env"
     restart: "always"
     environment:
-      - VIRTUAL_HOST= # example: mspaint.gallery
+      - VIRTUAL_HOST=
       - VIRTUAL_PORT=3000
-      - LETSENCRYPT_HOST= # example mspaint.gallery
-      - LETSENCRYPT_EMAIL= # your email address
+      - LETSENCRYPT_HOST=
+      - LETSENCRYPT_EMAIL=
     depends_on:
-      - paintsol_api
+      - meme_archives_api
     networks:
       - nginx-proxy-network
     command: npm start

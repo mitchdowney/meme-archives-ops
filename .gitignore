@@ -3,4 +3,4 @@
 .vscode/terminals.json
 
 config/acme-companion.env
-config/paintsol-db.env
+config/meme-archives-db.env
