@@ -16,7 +16,12 @@ prod_up_db:
 
 .PHONY: prod_up_all
 prod_up_all:
-	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up -d
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up nginx_proxy -d
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up acme_companion -d
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up meme_archives_db -d
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up meme_archives_api -d
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up meme_archives_tg_bot -d
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up meme_archives_web -d
 
 .PHONY: prod_down_all
 prod_down_all:
