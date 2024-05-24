@@ -79,6 +79,33 @@ services:
     # environment:
     #   - VIRTUAL_HOST=
     #   - VIRTUAL_PORT=4321
+    #   - LETSENCRYPT_HOST=
+    #   - LETSENCRYPT_EMAIL=
+    command: npm start
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "1"
+        max-size: "50m"
+
+  meme_archives_tg_bot:
+    build: "../../meme-archives-tg-bot/"
+    image: meme-archives-tg-bot
+    container_name: "meme_archives_tg_bot"
+    env_file:
+      - "../../meme-archives-tg-bot/.env"
+    ports:
+      - "9000:9000"
+    restart: "always"
+    depends_on:
+      - nginx_proxy
+    networks:
+      - nginx-proxy-network
+    # environment:
+    #   - VIRTUAL_HOST=
+    #   - VIRTUAL_PORT=4321
+    #   - LETSENCRYPT_HOST=
+    #   - LETSENCRYPT_EMAIL=
     command: npm start
     logging:
       driver: "json-file"
@@ -103,6 +130,8 @@ services:
     # environment:
     #   - VIRTUAL_HOST=
     #   - VIRTUAL_PORT=3000
+    #   - LETSENCRYPT_HOST=
+    #   - LETSENCRYPT_EMAIL=
     depends_on:
       - meme_archives_api
     networks:

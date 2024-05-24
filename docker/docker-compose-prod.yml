@@ -84,6 +84,29 @@ services:
         max-file: "1"
         max-size: "50m"
 
+  meme_archives_tg_bot:
+    build: "../../meme-archives-tg-bot/"
+    image: meme-archives-tg-bot
+    container_name: "meme_archives_tg_bot"
+    env_file:
+      - "../../meme-archives-tg-bot/.env"
+    restart: "always"
+    depends_on:
+      - nginx_proxy
+    networks:
+      - nginx-proxy-network
+    environment:
+      - VIRTUAL_HOST=
+      - VIRTUAL_PORT=9000
+      - LETSENCRYPT_HOST=
+      - LETSENCRYPT_EMAIL=
+    command: npm start
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "1"
+        max-size: "50m"
+
   meme_archives_web:
     build: "../../meme-archives-web/"
     image: meme-archives-web
