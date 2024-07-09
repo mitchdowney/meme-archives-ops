@@ -4,3 +4,6 @@
 
 config/acme-companion.env
 config/meme-archives-db.env
+
+**/*.png
+**/*.mp4
