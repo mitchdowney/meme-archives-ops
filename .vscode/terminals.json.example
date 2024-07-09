@@ -14,6 +14,12 @@
       "open": true
     },
     {
+      "name": "Meme Archives Web Static",
+      "description": "meme-archives-web-static",
+      "cwd": "~/repos/meme-archives-web-static",
+      "open": true
+    },
+    {
       "name": "Meme Archives Ops",
       "description": "meme-archives-ops",
       "cwd": "~/repos/meme-archives-ops",
@@ -23,6 +29,12 @@
       "name": "Meme Archives TG Bot",
       "description": "meme-archives-tg-bot",
       "cwd": "~/repos/meme-archives-tg-bot",
+      "open": true
+    },
+    {
+      "name": "Meme Archives SSH",
+      "description": "meme-archives ssh",
+      "cwd": "~/repos/meme-archives-ops",
       "open": true
     },
     {
