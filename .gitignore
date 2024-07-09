@@ -7,3 +7,5 @@ config/meme-archives-db.env
 
 **/*.png
 **/*.mp4
+
+.DS_STORE
