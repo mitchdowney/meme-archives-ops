@@ -8,5 +8,6 @@ config/meme-archives-db.env
 **/*.png
 **/*.mp4
 **/*.gif
+**/*.zip
 
 .DS_STORE
