@@ -26,3 +26,14 @@ prod_up_all:
 .PHONY: prod_down_all
 prod_down_all:
 	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml down
+
+.PHONY: rebuild_api
+rebuild_api:
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml build --no-cache meme_archives_api
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up -d meme_archives_api
+
+.PHONY: rebuild_tg_bot
+rebuild_tg_bot:
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml build --no-cache meme_archives_tg_bot
+	docker compose -f ~/meme-archives-ops/docker/docker-compose-prod.yml up -d meme_archives_tg_bot
+
